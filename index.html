@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Box Riacho – Academia</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --white: #f5f3ee;
+    --red: #c0392b;
+    --red-dark: #922b21;
+    --gray: #1c1c1c;
+    --gray-mid: #2e2e2e;
+    --gray-light: #888;
+    --accent: #e74c3c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(13,13,13,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid #222;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--accent); }
+
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    color: var(--gray-light);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent);
+    color: var(--white) !important;
+    padding: 0.5rem 1.2rem;
+    border-radius: 2px;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 4rem 6rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(160deg, rgba(192,57,43,0.18) 0%, transparent 50%),
+      repeating-linear-gradient(45deg, transparent, transparent 60px, rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+    font-weight: 400;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 12vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    max-width: 900px;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+
+  .hero-sub {
+    margin-top: 2rem;
+    font-size: 1rem;
+    color: var(--gray-light);
+    max-width: 420px;
+  }
+
+  .hero-actions {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn-whatsapp {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.6rem;
+    background: #CF1020 !important;
+    color: #fff !important;
+    padding: 0.9rem 2rem !important;
+    border: none;
+    border-radius: 4px !important;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(207,16,32,0.4);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  }
+  .btn-whatsapp:hover {
+    background: #a50d1a !important;
+    box-shadow: 0 6px 20px rgba(207,16,32,0.55);
+    transform: translateY(-1px);
+  }
+  .btn-whatsapp:active {
+    transform: translateY(0);
+  }
+  .btn-whatsapp svg {
+    flex-shrink: 0;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--white);
+    padding: 0.85rem 2.2rem;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--red-dark); }
+
+  .btn-ghost {
+    display: inline-block;
+    color: var(--gray-light);
+    padding: 0.85rem 2rem;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid #333;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: #666; color: var(--white); }
+
+  .hero-rating {
+    position: absolute;
+    top: 50%;
+    right: 4rem;
+    transform: translateY(-50%);
+    text-align: center;
+    border: 1px solid #2a2a2a;
+    padding: 2rem 1.5rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.03);
+  }
+  .hero-rating .score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4.5rem;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stars { color: var(--accent); font-size: 1.1rem; letter-spacing: 2px; }
+  .hero-rating small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--gray-light);
+    margin-top: 0.4rem;
+    letter-spacing: 0.08em;
+  }
+
+  .info-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .info-item {
+    padding: 2rem 4rem;
+    border-right: 1px solid #1e1e1e;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .info-item:last-child { border-right: none; }
+  .info-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .info-value { font-size: 0.95rem; color: var(--white); }
+
+  section { padding: 6rem 4rem; }
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.03em;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+
+  .about { background: var(--gray); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-text p {
+    color: var(--gray-light);
+    font-size: 0.98rem;
+    line-height: 1.85;
+    margin-bottom: 1rem;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: #2e2e2e;
+    border: 1px solid #2e2e2e;
+  }
+  .stat {
+    background: var(--gray);
+    padding: 2rem;
+    text-align: center;
+  }
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stat-number span { color: var(--accent); }
+  .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    margin-top: 0.4rem;
+  }
+
+  .horarios { background: var(--black); }
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: #1e1e1e;
+    border: 1px solid #1e1e1e;
+    margin-top: 3rem;
+  }
+  .schedule-day {
+    background: var(--gray);
+    padding: 1.2rem 0.8rem;
+    text-align: center;
+  }
+  .schedule-day.closed { background: #111; }
+  .day-name {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    margin-bottom: 0.8rem;
+  }
+  .day-hours { font-size: 0.78rem; color: var(--white); line-height: 1.8; }
+  .day-closed { font-size: 0.75rem; color: #444; }
+  .today { background: var(--gray-mid); border-top: 2px solid var(--accent); }
+
+  .depoimentos { background: var(--gray); }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .review-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 4px;
+    padding: 2rem;
+    position: relative;
+  }
+  .review-card::before {
+    content: '"';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: var(--accent);
+    opacity: 0.25;
+    position: absolute;
+    top: -0.5rem;
+    left: 1.5rem;
+    line-height: 1;
+  }
+  .review-text {
+    font-size: 0.9rem;
+    color: #aaa;
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .review-author { display: flex; align-items: center; gap: 0.75rem; }
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--white);
+    flex-shrink: 0;
+  }
+  .author-name { font-size: 0.85rem; font-weight: 500; color: var(--white); }
+  .author-badge { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
+  .review-stars { color: var(--accent); font-size: 0.8rem; margin-bottom: 0.3rem; }
+
+  .localizacao { background: var(--black); }
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+  .location-info p {
+    color: var(--gray-light);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 0.5rem;
+  }
+  .location-info strong { color: var(--white); }
+  .map-placeholder {
+    background: var(--gray);
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .map-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+  }
+  .map-link:hover { opacity: 0.7; }
+
+  .cta-section {
+    background: var(--accent);
+    padding: 5rem 4rem;
+    text-align: center;
+  }
+  .cta-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: var(--white);
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+  }
+  .cta-section p {
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
+  .btn-white {
+    display: inline-block;
+    background: var(--white);
+    color: var(--accent);
+    padding: 0.9rem 2.5rem;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 2px;
+    transition: opacity 0.2s;
+  }
+  .btn-white:hover { opacity: 0.85; }
+
+  footer {
+    background: #080808;
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #1e1e1e;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--accent); }
+  footer p { font-size: 0.75rem; color: #555; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.75rem;
+    color: #555;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .hero { padding: 0 1.5rem 4rem; }
+    .hero-rating { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .info-bar { grid-template-columns: 1fr; }
+    .info-item { padding: 1.5rem; border-right: none; border-bottom: 1px solid #1e1e1e; }
+    .about-grid, .location-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .schedule-grid { grid-template-columns: repeat(4, 1fr); }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    .cta-section { padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">My <span>Box</span> Riacho</div>
+  <ul>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#horarios">Horários</a></li>
+    <li><a href="#depoimentos">Avaliações</a></li>
+    <li><a href="#localizacao">Localização</a></li>
+    <li><a href="tel:11966092135" class="nav-cta">Ligar agora</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <p class="hero-tag">São Bernardo do Campo – Rio Grande</p>
+  <h1>Treine.<br><em>Evolua.</em><br>Conquiste.</h1>
+  <p class="hero-sub">A melhor opção do Riacho para seus treinos. Ambiente acolhedor, professores experientes e equipamentos de qualidade.</p>
+  <div class="hero-actions">
+    <a href="https://api.whatsapp.com/send?phone=5511966092135" class="btn-whatsapp">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#fff">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Entrar em contato
+    </a>
+
+  </div>
+  <div class="hero-rating">
+    <div class="score">5,0</div>
+    <div class="stars">★★★★★</div>
+    <small>57 avaliações</small>
+    <small style="margin-top:0.5rem;color:#444;">Google Maps</small>
+  </div>
+</section>
+
+<div class="info-bar">
+  <div class="info-item">
+    <span class="info-label">Endereço</span>
+    <span class="info-value">R. Sexto Guazeli, 65 – Rio Grande<br>São Bernardo do Campo – SP</span>
+  </div>
+  <div class="info-item">
+    <span class="info-label">Telefone / Instagram</span>
+    <span class="info-value">(11) 96609-2135<br><a href="https://instagram.com" style="color:var(--accent);text-decoration:none;">instagram.com</a></span>
+  </div>
+  <div class="info-item">
+    <span class="info-label">Horário de hoje</span>
+    <span class="info-value">Seg–Sex: 06h–10h e 15h–21h<br>Sábado e Domingo: Fechado</span>
+  </div>
+</div>
+
+<section class="about" id="sobre">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p class="section-tag">Sobre a academia</p>
+      <h2 class="section-title">Seu treino começa aqui</h2>
+      <p>A My Box Riacho é uma sala de fitness completa focada em resultados reais. Com equipamentos modernos e uma equipe altamente qualificada, oferecemos treinos adaptáveis para todos os níveis — do iniciante ao avançado.</p>
+      <p>Nosso professor Alcino é referência na região: dedicado, técnico e inspirador. O ambiente foi construído para que você se sinta em casa e motivado a superar seus limites a cada sessão.</p>
+      <p>Fácil acesso, galera receptiva e treinos que fazem diferença. Sem desculpa.</p>
+
+    </div>
+    <div class="about-stats fade-in">
+      <div class="stat">
+        <div class="stat-number">5<span>,0</span></div>
+        <div class="stat-label">Avaliação Google</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">57<span>+</span></div>
+        <div class="stat-label">Avaliações</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">3<span>+</span></div>
+        <div class="stat-label">Anos de história</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">100<span>%</span></div>
+        <div class="stat-label">Dedicação</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="horarios" id="horarios">
+  <div class="fade-in">
+    <p class="section-tag">Funcionamento</p>
+    <h2 class="section-title">Horários da semana</h2>
+  </div>
+  <div class="schedule-grid fade-in">
+    <div class="schedule-day today">
+      <div class="day-name">Segunda</div>
+      <div class="day-hours">06:00 – 10:00<br><span style="color:var(--gray-light);font-size:0.7rem;">intervalo</span><br>15:00 – 21:00</div>
+    </div>
+    <div class="schedule-day">
+      <div class="day-name">Terça</div>
+      <div class="day-hours">06:00 – 10:00<br><span style="color:var(--gray-light);font-size:0.7rem;">intervalo</span><br>15:00 – 21:00</div>
+      <div style="font-size:0.6rem;color:var(--accent);margin-top:0.5rem;letter-spacing:0.05em;">Tiradentes*</div>
+    </div>
+    <div class="schedule-day">
+      <div class="day-name">Quarta</div>
+      <div class="day-hours">06:00 – 10:00<br><span style="color:var(--gray-light);font-size:0.7rem;">intervalo</span><br>15:00 – 21:00</div>
+    </div>
+    <div class="schedule-day">
+      <div class="day-name">Quinta</div>
+      <div class="day-hours">06:00 – 10:00<br><span style="color:var(--gray-light);font-size:0.7rem;">intervalo</span><br>15:00 – 21:00</div>
+    </div>
+    <div class="schedule-day">
+      <div class="day-name">Sexta</div>
+      <div class="day-hours">06:00 – 10:00<br><span style="color:var(--gray-light);font-size:0.7rem;">intervalo</span><br>15:00 – 21:00</div>
+    </div>
+    <div class="schedule-day closed">
+      <div class="day-name">Sábado</div>
+      <div class="day-closed">Fechado</div>
+    </div>
+    <div class="schedule-day closed">
+      <div class="day-name">Domingo</div>
+      <div class="day-closed">Fechado</div>
+    </div>
+  </div>
+  <p style="margin-top:1.2rem;font-size:0.72rem;color:var(--gray-light);letter-spacing:0.08em;">* Terça-feira (Tiradentes) — horários podem ser diferentes.</p>
+</section> id="depoimentos">
+  <div class="fade-in">
+    <p class="section-tag">O que dizem nossos alunos</p>
+    <h2 class="section-title">Avaliações reais</h2>
+  </div>
+  <div class="reviews-grid">
+
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Melhor academia e crossfit, professor Alcino super dedicado a todos os alunos, espaço 100% acolhedor, uma grande família para mim ❤❤ todos de lá.</p>
+      <div class="review-author">
+        <div class="avatar">LG</div>
+        <div>
+          <div class="author-name">Larissa Genari</div>
+          <div class="author-badge">um ano atrás</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Um lugar incrível ❤️ para se conhecer e frequentar.</p>
+      <div class="review-author">
+        <div class="avatar">EE</div>
+        <div>
+          <div class="author-name">Ellilopesesteticista 77</div>
+          <div class="author-badge">Local Guide · 5 meses atrás</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Amo o ambiente, os equipamentos e o instrutor Alcino — simplesmente maravilhoso! Treinos adaptáveis, então não tem desculpa, galera!</p>
+      <div class="review-author">
+        <div class="avatar">DL</div>
+        <div>
+          <div class="author-name">Deise Lucena</div>
+          <div class="author-badge">Local Guide · 3 anos atrás</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Melhor opção do riacho para treinos. Ótimo professor, bom espaço e galera muito receptiva. Recomendo muito!</p>
+      <div class="review-author">
+        <div class="avatar">MF</div>
+        <div>
+          <div class="author-name">Mariana Figueiredo</div>
+          <div class="author-badge">5 meses atrás</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Excelente academia, ambiente acolhedor e professor muito dedicado. Recomendo!</p>
+      <div class="review-author">
+        <div class="avatar">EA</div>
+        <div>
+          <div class="author-name">Edjania Aureliana</div>
+          <div class="author-badge">Local Guide · 6 meses atrás</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Ótima academia! Espaço bem organizado, professor atencioso e galera muito receptiva. Vale muito a pena!</p>
+      <div class="review-author">
+        <div class="avatar">JV</div>
+        <div>
+          <div class="author-name">Juliana sms Vieira</div>
+          <div class="author-badge">10 meses atrás</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Academia incrível, ambiente motivador e professor super comprometido com o desenvolvimento de cada aluno. Recomendo!</p>
+      <div class="review-author">
+        <div class="avatar">CS</div>
+        <div>
+          <div class="author-name">Carolina Smaniotti</div>
+          <div class="author-badge">Local Guide · um ano atrás</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Lugar top, treinos de qualidade e professor dedicado. Quem mora no Riacho não pode deixar de conhecer!</p>
+      <div class="review-author">
+        <div class="avatar">RB</div>
+        <div>
+          <div class="author-name">Rafael Botter (VJ_ALGUEM)</div>
+          <div class="author-badge">Local Guide · um ano atrás</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Ótima estrutura, professor muito atencioso e ambiente acolhedor. Recomendo para todos os níveis!</p>
+      <div class="review-author">
+        <div class="avatar">AP</div>
+        <div>
+          <div class="author-name">Aline M. Paixão</div>
+          <div class="author-badge">Local Guide · um ano atrás</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="localizacao" id="localizacao">
+  <div class="fade-in">
+    <p class="section-tag">Como chegar</p>
+    <h2 class="section-title">Localização</h2>
+  </div>
+  <div class="location-grid fade-in">
+    <div class="location-info">
+      <p><strong>Endereço</strong></p>
+      <p>R. Sexto Guazeli, 65<br>Rio Grande – São Bernardo do Campo – SP<br>CEP 09830-270</p>
+      <p style="margin-top:1.5rem;"><strong>Telefone</strong></p>
+      <p><a href="tel:11966092135" style="color:var(--accent);text-decoration:none;">(11) 96609-2135</a></p>
+      <p style="margin-top:1.5rem;"><strong>Instagram</strong></p>
+      <p><a href="https://instagram.com" style="color:var(--accent);text-decoration:none;">instagram.com</a></p>
+      <p style="margin-top:1.5rem;"><strong>Código Plus</strong></p>
+      <p>6F99+3H – Rio Grande, SBC</p>
+      <a href="https://maps.google.com/?q=R.+Sexto+Guazeli,+65+São+Bernardo+do+Campo+SP" target="_blank" class="map-link">Abrir no Google Maps →</a>
+    </div>
+    <div class="map-placeholder">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+      <p style="color:#555;font-size:0.8rem;margin-top:0.5rem;">R. Sexto Guazeli, 65</p>
+      <p style="color:#444;font-size:0.75rem;">Rio Grande – SBC – SP</p>
+      <a href="https://maps.google.com/?q=R.+Sexto+Guazeli,+65+São+Bernardo+do+Campo+SP" target="_blank" class="btn-ghost" style="margin-top:1.2rem;font-size:0.75rem;padding:0.6rem 1.4rem;">Ver no mapa</a>
+    </div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <h2>Pronto para começar?</h2>
+  <p>Entre em contato e venha conhecer a My Box Riacho pessoalmente.</p>
+  <a href="tel:11966092135" class="btn-white">(11) 96609-2135</a>
+</div>
+
+<footer>
+  <div class="footer-logo">My <span>Box</span> Riacho</div>
+  <p>© 2025 My Box Riacho · São Bernardo do Campo – SP</p>
+  <div class="footer-links">
+    <a href="#sobre">Sobre</a>
+    <a href="#horarios">Horários</a>
+    <a href="#depoimentos">Avaliações</a>
+    <a href="tel:11966092135">Contato</a>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
